@@ -153,6 +153,11 @@ frappe.ui.form.Toolbar = Class.extend({
 		this.page.add_menu_item(__("Reload"), function() {
 			me.frm.reload_doc();}, true);
 
+		// expand
+		this.page.add_menu_item(__("Expand"), function() {
+			me.frm.reload_doc();}, true);
+
+
 		// add to desktop
 		if(me.frm.meta.issingle) {
 			this.page.add_menu_item(__('Add to Desktop'), function () {
