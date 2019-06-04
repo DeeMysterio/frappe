@@ -188,13 +188,13 @@ frappe.ui.form.Toolbar = Class.extend({
 			this.page.add_menu_item(__("Expand Sections"), function () {
 				me.toggleSectionBreaks(section_fields, false);
 			}, true);
-			this.print_icon = this.page.add_action_icon("fa fa-angle-double-down fa-lg", function() {
+			this.page.add_action_icon("fa fa-angle-double-down fa-lg", function() {
 				me.toggleSectionBreaks(section_fields, false);
 			});
 			this.page.add_menu_item(__("Collapse Sections"), function () {
 				me.toggleSectionBreaks(section_fields, true);
 			}, true);
-			this.print_icon = this.page.add_action_icon("fa fa-angle-double-up fa-lg", function() {
+			this.page.add_action_icon("fa fa-angle-double-up fa-lg", function() {
 				me.toggleSectionBreaks(section_fields, true);
 			});
 		}
@@ -383,10 +383,9 @@ frappe.ui.form.Toolbar = Class.extend({
 		$(this.frm.wrapper).attr("data-state", this.frm.doc.__unsaved ? "dirty" : "clean");
 	},
 
-	toggleSectionBreaks: function(section_fields, collapse) {
-		let me = this;
+	toggleSectionBreaks: function(section_fields, collapse_state) {
 		for (let section of section_fields) {
-			me.frm.get_field(section.fieldname).collapse(collapse);
+			this.frm.get_field(section.fieldname).collapse(collapse_state);
 		}
 	}
 	 
