@@ -34,8 +34,6 @@ class Address(Document):
 			if frappe.db.exists("Address", self.name):
 				self.name = make_autoname(cstr(self.address_title).strip() + "-" +
 					cstr(self.address_type).strip() + "-.#")
-		else:
-			throw(_("Address Title is mandatory."))
 
 	def validate(self):
 		self.link_address()
