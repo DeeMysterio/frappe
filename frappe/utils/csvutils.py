@@ -50,7 +50,7 @@ def read_csv_content(fcontent, ignore_encoding=False):
 				continue
 
 		if not decoded:
-			frappe.msgprint(_("Unknown file encoding. Tried utf-8, windows-1250, windows-1252."), raise_exception=True)
+			frappe.throw(_("Unknown file encoding. Tried utf-8, windows-1250, windows-1252. Please upload a valid csv file."))
 
 	fcontent = fcontent.encode("utf-8")
 	content  = [ ]
