@@ -50,7 +50,7 @@ def read_csv_content(fcontent, ignore_encoding=False):
 				continue
 
 		if not decoded:
-			frappe.throw(_("Unknown file encoding. Tried utf-8, windows-1250, windows-1252. Please upload a valid csv file."))
+			frappe.msgprint(_("Unknown file encoding. Tried utf-8, windows-1250, windows-1252."), raise_exception=True)
 
 	fcontent = fcontent.encode("utf-8")
 	content  = [ ]
@@ -168,3 +168,14 @@ def import_doc(d, doctype, overwrite, row_idx, submit=False, ignore_links=False)
 
 def getlink(doctype, name):
 	return '<a href="#Form/%(doctype)s/%(name)s">%(name)s</a>' % locals()
+
+def is_csv():
+	if getattr(frappe, "uploaded_file", None):
+		fname = frappe.uploaded_file
+	else:
+		fname = frappe.form_dict.filename
+
+	if fname.lower().endswith(".csv"):
+		return True
+	else:
+		return False
