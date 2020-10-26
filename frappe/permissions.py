@@ -177,6 +177,8 @@ def get_role_permissions(doctype_meta, user=None):
 			return perm.role in roles and cint(perm.permlevel)==0
 
 		def has_permission_without_if_owner_enabled(ptype):
+			if ptype == 'report':
+				return True
 			return any(p.get(ptype, 0) and not p.get('if_owner', 0) for p in applicable_permissions)
 
 		applicable_permissions = list(filter(is_perm_applicable, getattr(doctype_meta, 'permissions', [])))

@@ -32,17 +32,17 @@ def validate_receiver_nos(receiver_list):
 @frappe.whitelist()
 def get_contact_number(contact_name, ref_doctype, ref_name):
 	"returns mobile number of the contact"
-	number = frappe.db.sql("""select mobile_no, phone from tabContact 
-		where name=%s 
+	number = frappe.db.sql("""select mobile_no, phone from tabContact
+		where name=%s
 			and exists(
 				select name from `tabDynamic Link` where link_doctype=%s and link_name=%s
 			)
 	""", (contact_name, ref_doctype, ref_name))
-	
+
 	return number and (number[0][0] or number[0][1]) or ''
 
 @frappe.whitelist()
-def send_sms(receiver_list, msg, sender_name = '', success_msg = True):
+def send_sms(receiver_list, msg, mask='' , sender_name = '', success_msg = True):
 
 	import json
 	if isinstance(receiver_list, string_types):
@@ -55,7 +55,8 @@ def send_sms(receiver_list, msg, sender_name = '', success_msg = True):
 	arg = {
 		'receiver_list' : receiver_list,
 		'message'		: frappe.safe_decode(msg).encode('utf-8'),
-		'success_msg'	: success_msg
+		'success_msg'	: success_msg,
+		'mask'			: mask
 	}
 
 	if frappe.db.get_value('SMS Settings', None, 'sms_gateway_url'):
@@ -71,6 +72,9 @@ def send_via_gateway(arg):
 	for d in ss.get("parameters"):
 		if not d.header:
 			args[d.parameter] = d.value
+
+	if arg.get('mask') != '' and arg.get('mask')!= 'KALE FAISALABAD':
+		args['mask'] = arg.get('mask')
 
 	success_list = []
 	for d in arg.get('receiver_list'):
